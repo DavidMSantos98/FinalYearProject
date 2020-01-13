@@ -5,11 +5,14 @@ using UnityEngine;
 public class playerPrototypeMovement : MonoBehaviour
 {
     private Rigidbody2D PlayerRB;
-    public BoxCollider2D GroundCheck;
-    private LayerMask walkableLayers;
+    public Collider2D GroundCheckCollider;
+    private Collider2D PlayerCollider;
+    //MOUSE VARIABLES
+    public Vector3 mousePos;
+    public Transform cursor;
     
     //MOVEMENT VARIABLES
-    
+
     //Horizontal Movement
     private float horizontalMovement;
     private bool facingRight;
@@ -17,14 +20,17 @@ public class playerPrototypeMovement : MonoBehaviour
 
     //Vertical Movement
     public float jumpHeight;
+    public float fallMultiplier;
+    public float lowJumpMultiplier;
     void Start()
     {
-        walkableLayers = LayerMask.NameToLayer("Ground");
+        PlayerCollider = GetComponent<Collider2D>();
+        //GroundCheckCollider = GroundCheck.GetComponent<Collider2D>();
         facingRight = true;
         PlayerRB = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //HORIZONTAL MOVEMENT
         horizontalMovement = Input.GetAxis("Horizontal");
@@ -40,13 +46,28 @@ public class playerPrototypeMovement : MonoBehaviour
         }
 
         //VERTICAL MOVEMENT
-        bool isGrounded = GroundCheck.IsTouchingLayers(LayerMask.NameToLayer("Ground"));
-        if (isGrounded) { Debug.Log("TouchingGround"); }
-        if (isGrounded && Input.GetAxis("Jump")>0)
+        bool isGrounded = GroundCheckCollider.IsTouchingLayers(LayerMask.GetMask(new string[] { "Ground" }));
+        if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            Debug.Log("Jump");
-            PlayerRB.AddForce(new Vector2(0, jumpHeight));
+            PlayerRB.velocity = Vector2.up * jumpHeight;
         }
+
+        
+        if (PlayerRB.velocity.y < 0)
+        {
+            PlayerRB.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+
+        }else if (PlayerRB.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            PlayerRB.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+    }
+
+    private void Update()
+    {
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            cursor.position = mousePos;         
     }
 
     void flip()
