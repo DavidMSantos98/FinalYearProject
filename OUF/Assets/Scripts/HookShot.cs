@@ -72,10 +72,6 @@ public class HookShot : MonoBehaviour
                 STIsCollectible = true;
             }
         }
-        else
-        {
-            
-        }
 
         if (spearTipIsStuck)
         {
@@ -134,6 +130,7 @@ public class HookShot : MonoBehaviour
                 spearTip.gameObject.SetActive(false);
                 STIsCollectible = false;
                 timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;
+                hookRopeLine.enabled = false;
             }
 
         }
