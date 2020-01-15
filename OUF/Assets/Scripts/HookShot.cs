@@ -8,31 +8,53 @@ public class HookShot : MonoBehaviour
     private LineRenderer hookRopeLine;
     public float line_width = 0.2f;
     public Rigidbody2D spearTip;
-    private bool ropeTravelling;
+    private Rigidbody2D playerRB;
+    public bool STDetatched;
     private Vector2 spearTipDestination;
+    public bool spearTipIsStuck;
 
     public float projectilePower;
+    public float ropeResistance;
     void Start()
     {
-        ropeTravelling = false;
+        STDetatched = false;
+        spearTip.gameObject.SetActive(false);
+        playerRB = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0 )&& spearTipIsStuck==false)
         {
-            ropeTravelling = true;
+            spearTip.gameObject.SetActive(true);
+            STDetatched = true;
             CreateRope();
             ProjectSpearTip();
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            spearTip.bodyType = RigidbodyType2D.Dynamic;
+            spearTipIsStuck = false;
+            spearTip.GetComponent<SpearTIpScript>().tipIsStuck = false;
+        }
 
-        if (ropeTravelling)
+        if (STDetatched)
         {
             hookRopeLine.SetPosition(0, transform.position);
             hookRopeLine.SetPosition(1, spearTip.position);
         }
-        
+
+        if (spearTipIsStuck)
+        {
+            Vector2 playerPos = transform.position;//transform.position is set as Vector3
+            Vector2 betweenPlayerAndSpearTip = playerPos - spearTip.position;
+            Vector2 ropeDirectionVector = betweenPlayerAndSpearTip.normalized;
+
+            playerRB.AddForce(ropeResistance * -ropeDirectionVector, ForceMode2D.Force);
+
+        }
     }
 
     private void CreateRope()
@@ -53,17 +75,21 @@ public class HookShot : MonoBehaviour
 
     private void ProjectSpearTip()
     {
-        spearTip.AddForce(projectilePower * CalculateSpearTipDestination(), ForceMode2D.Impulse);
+        spearTip.AddForce(projectilePower * CalculateSpearTipDestination(), ForceMode2D.Force);
     }
 
     private Vector2 CalculateSpearTipDestination()
     {
         Vector2 betweenOriginAndDestination = spearTipDestination - spearTip.position;
-        float magnitudeOfbOADVector = Mathf.Sqrt(Mathf.Pow(spearTipDestination.x - spearTip.position.x, 2) - Mathf.Pow(spearTipDestination.y - spearTip.position.y, 2));
-        Vector2 directionVector = betweenOriginAndDestination.normalized; //Also known as unit vector, or normalized vector
-        return directionVector;
-    }   
+        Vector2 projectileDirectionVector = betweenOriginAndDestination.normalized; //Also known as unit vector, or normalized vector
+        return projectileDirectionVector;
+    }
 
+    public void TipGotStuck()
+    {
+        spearTipIsStuck = true;
+        spearTip.bodyType = RigidbodyType2D.Static;
+    }
 
 }
 

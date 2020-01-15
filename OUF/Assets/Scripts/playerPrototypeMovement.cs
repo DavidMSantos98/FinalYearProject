@@ -7,6 +7,9 @@ public class playerPrototypeMovement : MonoBehaviour
     private Rigidbody2D PlayerRB;
     public Collider2D GroundCheckCollider;
     private Collider2D PlayerCollider;
+
+    public Transform spearTip;
+
     //MOUSE VARIABLES
     public Vector3 mousePos;
     public Transform cursor;
@@ -76,6 +79,11 @@ public class playerPrototypeMovement : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void CheckPlayerSTCollection()
+    {
+
     }
 }
 
