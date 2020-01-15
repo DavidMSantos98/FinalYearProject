@@ -15,11 +15,20 @@ public class HookShot : MonoBehaviour
 
     public float projectilePower;
     public float ropeResistance;
+    private bool ropeTravelling;
+
+    public float timeBetweenSTProjectionAndCollection;
+    private float timeUntilProjectionCollection;
+
+    public float sTCollectionRange;
+    private bool STIsCollectible;
     void Start()
     {
+        STIsCollectible = false;
         STDetatched = false;
         spearTip.gameObject.SetActive(false);
         playerRB = GetComponent<Rigidbody2D>();
+        timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;
 
     }
 
@@ -29,21 +38,43 @@ public class HookShot : MonoBehaviour
         if (Input.GetMouseButtonDown(0 )&& spearTipIsStuck==false)
         {
             spearTip.gameObject.SetActive(true);
+            spearTip.GetComponent<SpearTIpScript>().spearIsStickable = true;
             STDetatched = true;
             CreateRope();
             ProjectSpearTip();
+            ropeTravelling = true;
         }
         if (Input.GetMouseButtonDown(1))
         {
             spearTip.bodyType = RigidbodyType2D.Dynamic;
+            spearTip.GetComponent<SpearTIpScript>().spearIsStickable = false;
             spearTipIsStuck = false;
             spearTip.GetComponent<SpearTIpScript>().tipIsStuck = false;
+        }
+
+        CheckPlayerSTCollection();
+
+        if (ropeTravelling)
+        {
+
         }
 
         if (STDetatched)
         {
             hookRopeLine.SetPosition(0, transform.position);
             hookRopeLine.SetPosition(1, spearTip.position);
+
+            timeUntilProjectionCollection -= Time.deltaTime;
+            Debug.Log(timeUntilProjectionCollection);
+
+            if (timeUntilProjectionCollection <= 0)
+            {
+                STIsCollectible = true;
+            }
+        }
+        else
+        {
+            
         }
 
         if (spearTipIsStuck)
@@ -91,5 +122,22 @@ public class HookShot : MonoBehaviour
         spearTip.bodyType = RigidbodyType2D.Static;
     }
 
+    private void CheckPlayerSTCollection()
+    {
+        if (spearTip.gameObject.activeSelf)
+        {
+            Vector2 distanceBetweenSTAndPlayer = playerRB.position - spearTip.position;
+            float distanceBetweenPlayerAndSpearTip = distanceBetweenSTAndPlayer.magnitude;
+
+            if (spearTipIsStuck != true && distanceBetweenPlayerAndSpearTip <= sTCollectionRange && STIsCollectible==true)
+            {
+                spearTip.gameObject.SetActive(false);
+                STIsCollectible = false;
+                timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;
+            }
+
+        }
+
+    }
 }
 

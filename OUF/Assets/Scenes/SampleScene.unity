@@ -433,37 +433,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1014176856
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1014176857}
-  m_Layer: 0
-  m_Name: PlayerGOGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1014176857
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014176856}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2685392, y: 0.3202436, z: -0.7734703}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1492684409}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1344220610
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,7 +624,8 @@ MonoBehaviour:
     m_Bits: 256
   tipIsStuck: 0
   player: {fileID: 1492684403}
-  ropeRange: 0
+  ropeRange: 10
+  spearIsStickable: 0
 --- !u!1 &1478732465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,13 +1267,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492684403}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.395461, y: -3.3352437, z: 0}
+  m_LocalPosition: {x: -7.6640005, y: -3.015, z: -0.7734703}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1891031471}
   - {fileID: 1352428747}
-  m_Father: {fileID: 1014176857}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1492684410
 MonoBehaviour:
@@ -1323,6 +1293,8 @@ MonoBehaviour:
   spearTipIsStuck: 0
   projectilePower: 150
   ropeResistance: 50
+  timeBetweenSTProjectionAndCollection: 5
+  sTCollectionRange: 5
 --- !u!1 &1891031469
 GameObject:
   m_ObjectHideFlags: 0

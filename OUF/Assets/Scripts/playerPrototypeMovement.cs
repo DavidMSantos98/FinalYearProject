@@ -70,7 +70,8 @@ public class playerPrototypeMovement : MonoBehaviour
     {
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
-            cursor.position = mousePos;         
+            cursor.position = mousePos;
+
     }
 
     void flip()
@@ -79,11 +80,6 @@ public class playerPrototypeMovement : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-    }
-
-    private void CheckPlayerSTCollection()
-    {
-
     }
 }
 

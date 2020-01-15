@@ -13,10 +13,17 @@ public class SpearTIpScript : MonoBehaviour
     private Rigidbody2D ST_RB;
     public float ropeRange;
 
+    public bool spearIsStickable;
+
+    private Vector2 previousPos;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        tipIsStuck = true;
-        player.GetComponent<HookShot>().spearTipIsStuck = true;
+        if (spearIsStickable)
+        {
+            tipIsStuck = true;
+            player.GetComponent<HookShot>().spearTipIsStuck = true;
+        }
+
     }
 
     private void Start()
@@ -24,6 +31,8 @@ public class SpearTIpScript : MonoBehaviour
         ST_RB = GetComponent<Rigidbody2D>();
         tipIsStuck =false;
         positionOffset = new Vector2(0.91f, 0.1f);
+        previousPos = ST_RB.position;
+        spearIsStickable = true;
     }
     private void Update()
     {
@@ -37,14 +46,16 @@ public class SpearTIpScript : MonoBehaviour
             player.GetComponent<HookShot>().TipGotStuck();
         }
 
-        Vector2 betweenSTandPlayer= transform.position - player.transform.position;
-        float distanceBetweenSTAndPlayer = betweenSTandPlayer.magnitude;
-        
-        if (distanceBetweenSTAndPlayer > ropeRange)
+        float xDistance = Mathf.Abs(ST_RB.position.x - player.transform.position.x);
+        float yDistance= Mathf.Abs(ST_RB.position.y - player.transform.position.y);
+
+        if (xDistance > ropeRange || yDistance > ropeRange)
         {
+            ST_RB.position = previousPos;
             ST_RB.velocity = Vector2.zero;
+            spearIsStickable = false;
         }
-        
+        previousPos = ST_RB.position;
     }
     
 }
