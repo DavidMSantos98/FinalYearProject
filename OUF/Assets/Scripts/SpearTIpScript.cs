@@ -38,7 +38,7 @@ public class SpearTIpScript : MonoBehaviour
     {
         if (player.GetComponent<HookShot>().STDetatched)
         {
-            transform.SetParent(null, true);
+            ChangeSpearTipParenting();
         }
 
         if (tipIsStuck==true)
@@ -56,6 +56,18 @@ public class SpearTIpScript : MonoBehaviour
             spearIsStickable = false;
         }
         previousPos = ST_RB.position;
+    }
+
+    public void ChangeSpearTipParenting()
+    {
+        if(transform.parent== player.transform)
+        {
+            transform.SetParent(null, true);
+        }
+        else
+        {
+            transform.SetParent(player.transform, true);
+        }
     }
     
 }

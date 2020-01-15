@@ -128,6 +128,7 @@ public class HookShot : MonoBehaviour
             if (spearTipIsStuck != true && distanceBetweenPlayerAndSpearTip <= sTCollectionRange && STIsCollectible==true)
             {
                 spearTip.gameObject.SetActive(false);
+                spearTip.GetComponent<SpearTIpScript>().ChangeSpearTipParenting();
                 STIsCollectible = false;
                 timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;
                 hookRopeLine.enabled = false;
