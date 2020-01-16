@@ -12,6 +12,7 @@ public class SpearTIpScript : MonoBehaviour
     public GameObject player;
     private Rigidbody2D ST_RB;
     public float ropeRange;
+    private bool previousSTDetatched;
 
     public bool spearIsStickable;
 
@@ -33,10 +34,11 @@ public class SpearTIpScript : MonoBehaviour
         positionOffset = new Vector2(0.91f, 0.1f);
         previousPos = ST_RB.position;
         spearIsStickable = true;
+        previousSTDetatched = false;
     }
     private void Update()
     {
-        if (player.GetComponent<HookShot>().STDetatched)
+        if (player.GetComponent<HookShot>().STDetatched==true && previousSTDetatched!= player.GetComponent<HookShot>().STDetatched)
         {
             ChangeSpearTipParenting();
         }
@@ -56,11 +58,13 @@ public class SpearTIpScript : MonoBehaviour
             spearIsStickable = false;
         }
         previousPos = ST_RB.position;
+
+        previousSTDetatched = player.GetComponent<HookShot>().STDetatched;
     }
 
     public void ChangeSpearTipParenting()
     {
-        if(transform.parent== player.transform)
+        if(transform.parent == player)
         {
             transform.SetParent(null, true);
         }

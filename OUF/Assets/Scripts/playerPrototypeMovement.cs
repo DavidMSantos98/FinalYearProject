@@ -18,7 +18,7 @@ public class playerPrototypeMovement : MonoBehaviour
 
     //Horizontal Movement
     private float horizontalMovement;
-    private bool facingRight;
+    public bool facingRight;
     public float maxSpeed;
 
     //Vertical Movement

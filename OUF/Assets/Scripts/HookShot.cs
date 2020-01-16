@@ -22,6 +22,8 @@ public class HookShot : MonoBehaviour
 
     public float sTCollectionRange;
     private bool STIsCollectible;
+
+    private Vector2 spearTipLocalPosition;
     void Start()
     {
         STIsCollectible = false;
@@ -29,7 +31,7 @@ public class HookShot : MonoBehaviour
         spearTip.gameObject.SetActive(false);
         playerRB = GetComponent<Rigidbody2D>();
         timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;
-
+        spearTipLocalPosition = new Vector2(0.9f, 0.01f);
     }
 
     // Update is called once per frame
@@ -42,7 +44,6 @@ public class HookShot : MonoBehaviour
             STDetatched = true;
             CreateRope();
             ProjectSpearTip();
-            ropeTravelling = true;
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -53,11 +54,6 @@ public class HookShot : MonoBehaviour
         }
 
         CheckPlayerSTCollection();
-
-        if (ropeTravelling)
-        {
-
-        }
 
         if (STDetatched)
         {
@@ -91,6 +87,7 @@ public class HookShot : MonoBehaviour
         {
             hookRopeLine = gameObject.AddComponent<LineRenderer>();
         }
+        hookRopeLine.enabled = true;
         hookRopeLine.startWidth = line_width;
         hookRopeLine.endWidth = line_width;
 
@@ -120,18 +117,26 @@ public class HookShot : MonoBehaviour
 
     private void CheckPlayerSTCollection()
     {
-        if (spearTip.gameObject.activeSelf)
+        if (spearTip.gameObject.activeSelf==true)
         {
             Vector2 distanceBetweenSTAndPlayer = playerRB.position - spearTip.position;
             float distanceBetweenPlayerAndSpearTip = distanceBetweenSTAndPlayer.magnitude;
 
             if (spearTipIsStuck != true && distanceBetweenPlayerAndSpearTip <= sTCollectionRange && STIsCollectible==true)
             {
-                spearTip.gameObject.SetActive(false);
-                spearTip.GetComponent<SpearTIpScript>().ChangeSpearTipParenting();
                 STIsCollectible = false;
-                timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;
+                spearTip.gameObject.SetActive(false);
                 hookRopeLine.enabled = false;
+                STDetatched = false;
+                spearTip.GetComponent<SpearTIpScript>().ChangeSpearTipParenting();
+                spearTip.transform.localPosition = spearTipLocalPosition;
+                if (playerRB.GetComponent<playerPrototypeMovement>().facingRight == false)
+                {
+                    Vector2 negativeX = new Vector2(-1f, 1f);
+                    spearTip.transform.localPosition *= negativeX;
+                }
+                timeUntilProjectionCollection = timeBetweenSTProjectionAndCollection;   
+                
             }
 
         }
