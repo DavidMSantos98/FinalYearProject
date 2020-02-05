@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - TowerTile
+  - PathTile
+  - Enemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Enemy
+  - RangeIndicator
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Tiles
+    uniqueID: 1794714461
+    locked: 0
+  - name: TowerRangeIndicator
+    uniqueID: 3462572239
+    locked: 0
+  - name: SpawnAndGoal
+    uniqueID: 3289468307
+    locked: 0
+  - name: DynamicElements
+    uniqueID: 1732451869
+    locked: 0

@@ -642,6 +642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spearTipIsStuck: 0
   collisionHappened: 0
+  player: {fileID: 1492684409}
 --- !u!1 &1478732465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,13 +1186,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GroundCheckCollider: {fileID: 1891031470}
   spearTip: {fileID: 1352428747}
-  mousePos: {x: 0, y: 0, z: 0}
+  mousePos: {x: 9.839875, y: 21.203514, z: 0}
   cursor: {fileID: 64946226}
-  facingRight: 0
-  maxSpeed: 5
-  jumpHeight: 5
-  fallMultiplier: 2
-  lowJumpMultiplier: 4
+  facingRight: 1
+  maxSpeed: 8
+  jumpHeight: 8.25
+  fallMultiplier: 3
+  lowJumpMultiplier: 2.75
 --- !u!50 &1492684405
 Rigidbody2D:
   serializedVersion: 4
@@ -1356,9 +1357,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e1307d8b7e6a34aa8c3e5d5bbf876f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ropeLength: 0.1
   ropeWidth: 0.1
-  ropeResistance: 50
-  projectilePower: 30
+  ropeResistance: 10
+  distanceBetweenPlayerAndsT: 0
+  projectilePower: 0.2
   spearTip: {fileID: 1352428747}
   requiredDistanceToCollectsT: 1
   timeBetweensTUnstickAndCollisionIsOn: 1

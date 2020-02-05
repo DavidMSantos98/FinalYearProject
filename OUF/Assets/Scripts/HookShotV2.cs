@@ -7,8 +7,8 @@ public class HookShotV2 : MonoBehaviour
 {
     // Start is called before the first frame update
     //sT stands for spear tip
-    private bool sT_IsStuck;
-    private bool sT_IsSticky;
+    public float ropeLength;
+
     private bool sT_IsDetatched;
 
     private LineRenderer rope;
@@ -21,6 +21,8 @@ public class HookShotV2 : MonoBehaviour
     private Vector2 betweenPlayerAndSpearTip;
 
     private Rigidbody2D playerRigidbody;
+
+    public float distanceBetweenPlayerAndsT;
 
     public float projectilePower;
     Vector2 directionVector;
@@ -43,7 +45,6 @@ public class HookShotV2 : MonoBehaviour
         spearTip.gameObject.SetActive(false);
         playerRigidbody = GetComponent<Rigidbody2D>();
         spearTipRigidbody = spearTip.GetComponent<Rigidbody2D>();
-        sT_IsStuck = false;
         rope = GetComponent<LineRenderer>();
         rope.enabled = false;
         timeUntilCollisonIsOn = timeBetweensTUnstickAndCollisionIsOn;
@@ -99,7 +100,7 @@ public class HookShotV2 : MonoBehaviour
         {
             if (spearTip.GetComponent<SpearTipScriptV2>().spearTipIsStuck == false)
             {
-                float distanceBetweenPlayerAndsT = betweenPlayerAndSpearTip.magnitude;
+                distanceBetweenPlayerAndsT = betweenPlayerAndSpearTip.magnitude;
                 if (distanceBetweenPlayerAndsT <= requiredDistanceToCollectsT)
                 {
                     CollectsT();
@@ -119,7 +120,6 @@ public class HookShotV2 : MonoBehaviour
         spearTip.gameObject.SetActive(false);
         ResetSpearTipAttributes();
         ResetSpearTipPosition();
-
     }
 
     private void ResetSpearTipAttributes()
@@ -174,6 +174,6 @@ public class HookShotV2 : MonoBehaviour
 
     private void ApplyProjectionPower()
     {
-        spearTipRigidbody.AddForce(projectilePower * directionVector, ForceMode2D.Force);
+        spearTipRigidbody.AddForce(projectilePower * directionVector, ForceMode2D.Impulse);
     }
 }

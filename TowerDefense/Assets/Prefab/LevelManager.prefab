@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7959708584283691431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7959708584283691425}
+  - component: {fileID: 7959708584283691430}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7959708584283691425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7959708584283691431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.064180054, y: 0.21312448, z: -0.19252692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7959708584283691430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7959708584283691431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da4c5a8129bb7164eadf79b60d400958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePrefabs:
+  - {fileID: 6904637355620036422, guid: c4026be837920364e967844373f2c88d, type: 3}
+  - {fileID: 4831465385544467552, guid: 0f188a46dce915a48adb32eb6a516660, type: 3}
+  - {fileID: 7757214231428029937, guid: 206a0f38203bfd44fb682e06c12dc965, type: 3}
+  - {fileID: 324215720072963497, guid: f3eb7c54371b2504d9ef92c5461d2e55, type: 3}
+  - {fileID: 6170686279540090482, guid: f710923bd9240474d9ff529b1df20b2c, type: 3}
+  - {fileID: 6591554499566784301, guid: a525b856a9c65134d9ae06661e1212ea, type: 3}
+  TowerTiles: {fileID: 6297382518356334914, guid: 4df82ee204713a848a661c8af36ee780,
+    type: 3}
+  PathTiles: {fileID: 1287794244307000428, guid: b4f9ea1cad89df84e9784a623a223164,
+    type: 3}
+  tower: {fileID: 3845497822288313527, guid: 5e66935d59f5ddc4694185a5abe797e6, type: 3}
+  towerToBePlacedID: 0
+  spawnerX: 
+  spawnerY: 
+  spawnerGO: {fileID: 7049191186312559097, guid: 15f794f6e68ff684cab19457b8bd7702,
+    type: 3}
+  goalGO: {fileID: 6970892758451688207, guid: ec5c4dd5a2a5e0b4b9781e9236493d72, type: 3}
+  enemy: {fileID: 4173775404155485050, guid: 28730eae34c4b5f4bad6431f584ab023, type: 3}
+  enemyOptions:
+  - {fileID: 11400000, guid: de162db96cba1bf4bab127541f6fd20d, type: 2}
+  towerOptions:
+  - {fileID: 11400000, guid: 995357e2ceaea774d9b3c31653c2e565, type: 2}
