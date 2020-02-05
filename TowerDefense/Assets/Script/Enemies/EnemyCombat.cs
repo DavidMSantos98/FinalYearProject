@@ -32,7 +32,7 @@ public class EnemyCombat : MonoBehaviour
 
     public void TakeDamage(float damage) 
     {
-        Debug.Log("Damage Taken");
+        Debug.Log(damage+ " damage taken");
         health -= damage;
     }
 }

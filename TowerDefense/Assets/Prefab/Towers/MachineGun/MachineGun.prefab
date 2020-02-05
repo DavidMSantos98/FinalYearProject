@@ -117,6 +117,10 @@ MonoBehaviour:
   tower:
   - {fileID: 11400000, guid: 995357e2ceaea774d9b3c31653c2e565, type: 2}
   thisTower: {fileID: 0}
+  mgBullet: {fileID: 3971840606888517714, guid: acdc64fc04337044c8839b46d82082f0,
+    type: 3}
+  LevelManager: {fileID: 7959708584283691431, guid: aa4b465c368b36d4680040d1008f613b,
+    type: 3}
 --- !u!1001 &5651393333886309592
 PrefabInstance:
   m_ObjectHideFlags: 0

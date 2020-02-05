@@ -18,3 +18,4 @@ MonoBehaviour:
   Cost: 0
   SellingPrice: 0
   tower: {fileID: 3845497822288313527, guid: 5e66935d59f5ddc4694185a5abe797e6, type: 3}
+  projectileSpeed: 1

@@ -8,26 +8,33 @@ public class TowerManager : TowerParametersOthers
     private float attackRate;
     private int cost;
     private float sellingPrice;
+    private float projSpeed;
+    private float damage;
 
     public int towerIndex;
     [SerializeField]
     private Tower[] tower;
 
+    [HideInInspector]
     public Tower thisTower;
     private GameObject targetEnemy;
 
-    private int damage;
-
     private LayerMask enemiesLayer;
+
+    [SerializeField]
+    private GameObject mgBullet;
+    [SerializeField]
+    private GameObject LevelManager;
 
 
 
     void Awake()
     {
         enemiesLayer = LayerMask.NameToLayer("Enemy");
-        towerIndex = GetComponent<LevelManager>().towerToBePlacedID;
+        towerIndex = LevelManager.GetComponent<LevelManager>().towerToBePlacedID;
         thisTower = tower[towerIndex];
-        damage = thisTower.Cost;
+        damage = thisTower.Damage;
+        projSpeed = thisTower.projectileSpeed;
     }
 
     public void TowerAttack(GameObject enemy)
@@ -52,9 +59,10 @@ public class TowerManager : TowerParametersOthers
 
     private void MachineGunAttack()
     {
-        targetEnemy.GetComponent<EnemyCombat>().TakeDamage(damage);
+        GameObject bullet = Instantiate(mgBullet);
+        bullet.transform.position = transform.position;//+offset
+        bullet.GetComponent<HomingBullet>().SetValues(targetEnemy, projSpeed, damage);
     }
-
     private void CannonAttack()
     {
         Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(targetEnemy.transform.position, CannonDamageRange, enemiesLayer);

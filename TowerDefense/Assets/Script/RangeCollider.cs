@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RangeCollider : MonoBehaviour
 {
-    public bool targetAquired=false;
     private GameObject parent;
     private Tower parentTower;
     private float timeBetweenAttacks;
@@ -13,7 +12,7 @@ public class RangeCollider : MonoBehaviour
     private List<Collider2D> collisionList;
     private bool firstTarget;
     private bool towerCanAttack;
-    private void Start()
+    private void Awake()
     {
         firstTarget = true;
         collisionList = new List<Collider2D>();
@@ -40,10 +39,8 @@ public class RangeCollider : MonoBehaviour
             if (towerCanAttack)//attack target
             {
                 Debug.Log("Tower Attack");
-                targetAquired = true;
-                float towerDamage = parentTower.Damage;
-                target.GetComponent<EnemyCombat>().TakeDamage(towerDamage);
-                timeUntilNextAttack = timeBetweenAttacks;
+                parent.GetComponent<TowerManager>().TowerAttack(target);
+                timeUntilNextAttack = timeBetweenAttacks; 
             }
         }
         else
