@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1194334747322839213}
   m_Layer: 8
   m_Name: Robot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,6 +194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Value
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5130443598294264721, guid: d546fcdcccac36349a13c15a679cbe27,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1108455725
       objectReference: {fileID: 0}
     - target: {fileID: 6637901331208884198, guid: d546fcdcccac36349a13c15a679cbe27,
         type: 3}

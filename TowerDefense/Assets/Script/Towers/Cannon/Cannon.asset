@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46f2e25b3796816428269e7dca84404a, type: 3}
-  m_Name: MachineGun
+  m_Name: Cannon
   m_EditorClassIdentifier: 
-  Damage: 5
-  Range: 5
-  AttackRate: 0.5
-  Cost: 0
+  Damage: 8
+  Range: 0
+  AttackRate: 1.5
+  Cost: 30
   SellingPrice: 0
-  tower: {fileID: 3845497822288313527, guid: 5e66935d59f5ddc4694185a5abe797e6, type: 3}
-  projectileSpeed: 1
+  tower: {fileID: 7013919578298240036, guid: 302a9b3db6fa76940a6cdac10781ccea, type: 3}
+  projectileSpeed: 6

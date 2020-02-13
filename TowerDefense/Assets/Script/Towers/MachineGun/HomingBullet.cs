@@ -14,6 +14,7 @@ public class HomingBullet : MonoBehaviour
     private Vector2 lastRecordedTargetPosition;
 
     private Rigidbody2D bulletRB;
+    private float maxTimeAlive = 4;
     
     void Start()
     {
@@ -24,6 +25,15 @@ public class HomingBullet : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (maxTimeAlive <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            maxTimeAlive -= Time.deltaTime;
+        }
+
 
         if (target == null)
         {

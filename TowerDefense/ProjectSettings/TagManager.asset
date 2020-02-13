@@ -7,6 +7,7 @@ TagManager:
   - TowerTile
   - PathTile
   - Enemy
+  - DecorativeTiles
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - Enemy
   - RangeIndicator
   - Projectile
-  - 
-  - 
+  - Tower
+  - Tiles
   - 
   - 
   - 
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: DynamicElements
     uniqueID: 1732451869
+    locked: 0
+  - name: HealthBars
+    uniqueID: 3186511571
     locked: 0

@@ -17,8 +17,9 @@ public class RangeCollider : MonoBehaviour
         firstTarget = true;
         collisionList = new List<Collider2D>();
         parent = transform.parent.gameObject;
-        parentTower = parent.GetComponent<TowerManager>().thisTower;
-        timeBetweenAttacks = parentTower.AttackRate;
+        Debug.Log(parent.name);
+        //parentTower = parent.GetComponent<TowerManager>().tower;
+        timeBetweenAttacks = parent.GetComponent<TowerManager>().attackRate;
         timeUntilNextAttack = 0;
     }
 
@@ -57,8 +58,6 @@ public class RangeCollider : MonoBehaviour
                 }
             }
         }
-       
-        
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

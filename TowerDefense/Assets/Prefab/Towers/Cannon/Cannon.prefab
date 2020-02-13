@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5332341693078933489}
   - component: {fileID: 5109514257332682288}
-  m_Layer: 0
+  - component: {fileID: 3079128959396977598}
+  m_Layer: 11
   m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,6 +82,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3079128959396977598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013919578298240036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d19743199cc467f4891a41dd2d89f203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserDamageRange: 5
+  CannonDamageRange: 2
+  CannonCollateralDamage: 2
+  attackRate: 0
+  towerIndex: 0
+  tower: {fileID: 11400000, guid: ed7c7d289d54e134a9e09cf9c7692ef7, type: 2}
+  projectile: {fileID: 3914810419566449639, guid: 0c99595bb837fb44a9914d0a42eca866,
+    type: 3}
 --- !u!1001 &2946376384868846153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,6 +109,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5332341693078933489}
     m_Modifications:
+    - target: {fileID: 3745384874872025737, guid: 1a6f054b20deb3c49bdb62a6271aa20e,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -832395057
+      objectReference: {fileID: 0}
+    - target: {fileID: 3745384874872025737, guid: 1a6f054b20deb3c49bdb62a6271aa20e,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7067290240388424845, guid: 1a6f054b20deb3c49bdb62a6271aa20e,
         type: 3}
       propertyPath: m_LocalPosition.x

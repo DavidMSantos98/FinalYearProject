@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5739037972671011183}
   - component: {fileID: 8020716411730572192}
   - component: {fileID: -620393867006571883}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 5 - RockyB
   m_TagString: PathTile
   m_Icon: {fileID: 0}
@@ -138,8 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af22267a991b1c46b4bfdfde908eee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelManager: {fileID: 7959708584283691431, guid: aa4b465c368b36d4680040d1008f613b,
-    type: 3}
 --- !u!114 &-620393867006571883
 MonoBehaviour:
   m_ObjectHideFlags: 0

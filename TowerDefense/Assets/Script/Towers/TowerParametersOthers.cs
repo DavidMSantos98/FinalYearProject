@@ -5,6 +5,6 @@ using UnityEngine;
 public class TowerParametersOthers : MonoBehaviour
 {
     public float laserDamageRange=5;
-    public float CannonDamageRange=2;
+    public float CannonDamageRange=10;
     public float CannonCollateralDamage=2;
 }

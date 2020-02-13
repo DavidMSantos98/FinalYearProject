@@ -5,53 +5,55 @@ using UnityEngine;
 public class TowerManager : TowerParametersOthers
 {
     private float range;
-    private float attackRate;
-    private int cost;
+    public int cost;
     private float sellingPrice;
+    
+    public float attackRate;
     private float projSpeed;
     private float damage;
 
     public int towerIndex;
-    [SerializeField]
-    private Tower[] tower;
+    
+    public Tower tower;
 
-    [HideInInspector]
-    public Tower thisTower;
     private GameObject targetEnemy;
 
     private LayerMask enemiesLayer;
 
     [SerializeField]
-    private GameObject mgBullet;
-    [SerializeField]
+    private GameObject projectile;
     private GameObject LevelManager;
-
+    private GameObject Canvas;
 
 
     void Awake()
     {
+        LevelManager = GameObject.Find("LevelManager");
         enemiesLayer = LayerMask.NameToLayer("Enemy");
         towerIndex = LevelManager.GetComponent<LevelManager>().towerToBePlacedID;
-        thisTower = tower[towerIndex];
-        damage = thisTower.Damage;
-        projSpeed = thisTower.projectileSpeed;
+        damage = tower.Damage;
+        projSpeed = tower.projectileSpeed;
+        attackRate = tower.AttackRate;
+        cost = tower.Cost;
+        Canvas = LevelManager.transform.GetChild(0).gameObject;
+        Canvas.GetComponent<Currency>().SubtractCurrency(cost);
     }
 
     public void TowerAttack(GameObject enemy)
     {
         targetEnemy = enemy;
 
-        switch (towerIndex)
+        switch (tower.name)
         {
-            case 0:
+            case "MachineGun":  
                 MachineGunAttack();
                 break;
 
-            case 1:
+            case "Cannon":
                 CannonAttack();
                 break;
 
-            case 2:
+            case "Laser":
                 LaserAttack();
                 break;
         }
@@ -59,23 +61,19 @@ public class TowerManager : TowerParametersOthers
 
     private void MachineGunAttack()
     {
-        GameObject bullet = Instantiate(mgBullet);
+        GameObject bullet = Instantiate(projectile);
         bullet.transform.position = transform.position;//+offset
         bullet.GetComponent<HomingBullet>().SetValues(targetEnemy, projSpeed, damage);
     }
     private void CannonAttack()
     {
-        Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(targetEnemy.transform.position, CannonDamageRange, enemiesLayer);
-        foreach(Collider2D enemyCol in enemyColliders)
-        {
-            targetEnemy.GetComponent<EnemyCombat>().TakeDamage(CannonCollateralDamage);
-        }
-        targetEnemy.GetComponent<EnemyCombat>().TakeDamage(damage);
+        GameObject cannonBall = Instantiate(projectile);
+        cannonBall.transform.position = transform.position;//+offset
+        cannonBall.GetComponent<CannonProjectile>().SetValues(targetEnemy, projSpeed, damage);
     }
 
     private void LaserAttack()
     {
-
         targetEnemy.GetComponent<EnemyCombat>().TakeDamage(damage);
     }
 }

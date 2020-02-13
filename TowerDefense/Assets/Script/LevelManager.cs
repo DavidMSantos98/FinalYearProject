@@ -8,12 +8,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private GameObject [] tilePrefabs;
     
-    [SerializeField]
     private Transform TowerTiles;
-    [SerializeField]
     private Transform PathTiles;
-    
-    public GameObject tower;
+    private Transform DecorativeTiles;
+
+    public GameObject towerToBePlaced;
     public int towerToBePlacedID;
 
     public string spawnerX;
@@ -31,7 +30,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private Enemy[] enemyOptions;
     [SerializeField]
-    private Tower[] towerOptions;
+    private GameObject[] towerOptions;
+
+    private GameObject Canvas;
+
+    [SerializeField]
+    private Tower[] towerSO;
+
+    public int mapYSize;
+    private int mapXSize;
 
     public float TileSize
     {
@@ -40,8 +47,13 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        TowerTiles = GameObject.Find("TowerTiles").transform;
+        PathTiles = GameObject.Find("PathTiles").transform;
+        DecorativeTiles = GameObject.Find("DecorativeTiles").transform;
+
         CreateLevel();
-        towerToBePlacedID = 0;
+        Canvas = transform.GetChild(0).gameObject;
+        //towerToBePlacedID = 0;
     }
     void Update()
     {
@@ -50,18 +62,24 @@ public class LevelManager : MonoBehaviour
             CreateEnemy(0);
         }
 
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
+            Debug.Log("Current Tower is Machine Gun Tower");
             towerToBePlacedID = 0;
         }
-        if (Input.GetKeyDown("2"))
+        if (Input.GetKeyDown(KeyCode.W))
         {
+            Debug.Log("Current Tower is Cannon Tower");
             towerToBePlacedID = 1;
         }
-        if (Input.GetKeyDown("3"))
+        if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("Current Tower is Laser Tower");
             towerToBePlacedID = 2;
         }
+
+        towerToBePlaced = towerOptions[towerToBePlacedID];
+
     }
 
     private void CreateEnemy(int i)
@@ -75,8 +93,8 @@ public class LevelManager : MonoBehaviour
 
         string[] mapData = ReadLevelText();
 
-        int mapXSize = mapData[0].ToCharArray().Length;
-        int mapYSize = mapData.Length;
+        mapXSize = mapData[0].ToCharArray().Length;
+        mapYSize = mapData.Length;
 
         int SpawnerAndGoalDataSize = 8;
 
@@ -92,6 +110,19 @@ public class LevelManager : MonoBehaviour
             }
         }
 
+        //Create Border
+        for(int y = -2; y < mapYSize+1; y++)
+        {
+            for(int x=-2; x < mapXSize + 2; x++)
+            {
+                if(x==-2 || x ==-1 || x== mapXSize || x == mapXSize +1 || y == -2 || y ==-1 || y== mapYSize-1 || y == mapYSize)
+                {
+                    int decorativeTileIndex = UnityEngine.Random.Range(2, 4);
+                    PlaceTile(decorativeTileIndex.ToString(), x, y, worldStart);
+                }
+            }
+        }
+
         for(int j=0; j < SpawnerAndGoalDataSize; j++)
         {
             char[] newTiles = mapData[mapYSize-1].ToCharArray();
@@ -103,9 +134,6 @@ public class LevelManager : MonoBehaviour
 
         GameObject goal = Instantiate(goalGO);
         goal.transform.position = FindTileWithCords(PathTiles, int.Parse(goalX), int.Parse(goalY)).position;
-
-        Debug.Log(spawnerX);
-        Debug.Log(spawnerY);
 
     }
 
@@ -146,15 +174,20 @@ public class LevelManager : MonoBehaviour
         newTile.GetComponent<Tile>().X = x;
         newTile.GetComponent<Tile>().Y = y;
 
-        if (newTile.tag == "TowerTile")
+        switch (newTile.tag)
         {
-            newTile.transform.SetParent(TowerTiles);
-        }
-        if (newTile.tag == "PathTile")
-        {
-            newTile.transform.SetParent(PathTiles);
-        }
+            case "TowerTile":
+                newTile.transform.SetParent(TowerTiles);
+                break;
 
+            case "PathTile":
+                newTile.transform.SetParent(PathTiles);
+                break;
+
+            case "DecorativeTiles":
+                newTile.transform.SetParent(DecorativeTiles);
+                break;
+        }
     }
 
     private string[] ReadLevelText()
@@ -167,12 +200,21 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTower(Vector2 towerPosition, GameObject tile)
     {
-        GameObject newTower = Instantiate(towerOptions[towerToBePlacedID].tower);
-        newTower.transform.position = towerPosition;
-        
+        if (Canvas.GetComponent<Currency>().currency >= towerSO[towerToBePlacedID].Cost)
+        {
+            Debug.Log("Instatiating" + towerToBePlaced.name);
+            GameObject newTower = Instantiate(towerToBePlaced);
 
-        tile.GetComponent<Tile>().OnTopOfTileID = towerToBePlacedID;
-        tile.GetComponent<Tile>().TowerOnTopOfTile = newTower;
+            newTower.transform.position = towerPosition;
+
+            tile.GetComponent<Tile>().OnTopOfTileID = towerToBePlacedID;
+            tile.GetComponent<Tile>().TowerOnTopOfTile = newTower;
+        }
+        else
+        {
+            Debug.Log("Not enough currency to instantiate " + towerToBePlaced);
+        }
+
     }
 
     public void RemoveTower(GameObject tile)
