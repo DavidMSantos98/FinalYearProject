@@ -14,7 +14,7 @@ public class HomingBullet : MonoBehaviour
     private Vector2 lastRecordedTargetPosition;
 
     private Rigidbody2D bulletRB;
-    private float maxTimeAlive = 4;
+    private float maxTimeAlive = 2;
     
     void Start()
     {
@@ -66,7 +66,6 @@ public class HomingBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Bullet Collided");
         collision.gameObject.GetComponent<EnemyCombat>().TakeDamage(damage);
         Destroy(gameObject);
     }

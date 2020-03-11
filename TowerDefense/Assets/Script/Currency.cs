@@ -23,7 +23,6 @@ public class Currency : MonoBehaviour
         timeUntilCurrencyIncrease = timeBetweenAutomaticCurrencyIncrease;
     }
 
-    // Update is called once per frame
     void Update()
     {
 

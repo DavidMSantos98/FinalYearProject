@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3845497822288313526}
   - component: {fileID: 8956355658585458956}
   - component: {fileID: 7389602502643336490}
+  - component: {fileID: 3991320767434287474}
   m_Layer: 11
   m_Name: MachineGun
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1732451869
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: be13a8c1baa9fb9448e9218ff78ea0f2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9f76b57ad97cddd4c98b09d5c48c2b0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -113,10 +114,34 @@ MonoBehaviour:
   laserDamageRange: 5
   CannonDamageRange: 2
   CannonCollateralDamage: 2
+  cost: 0
+  attackRate: 0
   towerIndex: 0
   tower: {fileID: 11400000, guid: 995357e2ceaea774d9b3c31653c2e565, type: 2}
   projectile: {fileID: 3971840606888517714, guid: acdc64fc04337044c8839b46d82082f0,
     type: 3}
+--- !u!114 &3991320767434287474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3845497822288313527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a886493719b75441bbe72ac37692337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerDirections:
+  - {fileID: 21300000, guid: 9f76b57ad97cddd4c98b09d5c48c2b0b, type: 3}
+  - {fileID: 21300000, guid: 265d08ec098bf694dbb0315ee5f19da3, type: 3}
+  - {fileID: 21300000, guid: 636df8900dc16bc4ea3749659c8ab1d2, type: 3}
+  - {fileID: 21300000, guid: 60cb56c7674147345b8ecf8272bf5b7d, type: 3}
+  - {fileID: 21300000, guid: 6c11012c21249bf41bc3d8c3294a1e4e, type: 3}
+  - {fileID: 21300000, guid: e590215638d58154b975c5e690d03246, type: 3}
+  - {fileID: 21300000, guid: 86898523ce1867248afc4b6c3c7d8721, type: 3}
+  - {fileID: 21300000, guid: 8672ed0303facbe439b6fa61e92447c5, type: 3}
+  directionOffSet: 0.25
 --- !u!1001 &5651393333886309592
 PrefabInstance:
   m_ObjectHideFlags: 0

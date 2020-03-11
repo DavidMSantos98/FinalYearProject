@@ -48,7 +48,11 @@ public class MouseOverTiles : MonoBehaviour
         {
             if (targetTile.tag == "TowerTile")
             {
-                GetComponent<LevelManager>().PlaceTower(targetTile.transform.position, targetTile);
+                if (!GetComponent<PauseGame>().GameisPaused)
+                {
+                    GetComponent<LevelManager>().PlaceTower(targetTile.transform.position, targetTile);
+                }
+                
             }
         }
 
@@ -58,7 +62,11 @@ public class MouseOverTiles : MonoBehaviour
             {
                 if (targetTile.GetComponent<Tile>().OnTopOfTileID != null)
                 {
-                    GetComponent<LevelManager>().RemoveTower(targetTile);
+                    if (!GetComponent<PauseGame>().GameisPaused)
+                    {
+                        GetComponent<LevelManager>().RemoveTower(targetTile);
+                    }
+                    
                 }
             }
         }

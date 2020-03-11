@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2609684022933059076}
   - component: {fileID: 6817808242285868773}
   m_Layer: 0
-  m_Name: Space_0(Clone)
-  m_TagString: Untagged
+  m_Name: SpawnPoint
+  m_TagString: GoalAndSpawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

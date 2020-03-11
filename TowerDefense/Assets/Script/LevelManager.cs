@@ -82,6 +82,16 @@ public class LevelManager : MonoBehaviour
 
     }
 
+    public void changeToMGTower()
+    {
+        towerToBePlacedID = 0;
+    }
+
+    public void changeToCannonTower()
+    {
+        towerToBePlacedID = 1;
+    }
+
     private void CreateEnemy(int i)
     {
         GameObject Enemy = Instantiate(enemyOptions[i].enemyGO);
@@ -99,7 +109,8 @@ public class LevelManager : MonoBehaviour
         int SpawnerAndGoalDataSize = 8;
 
         Vector3 worldStart=Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height));
-
+        
+        //Create level
         for(int y=0; y< mapYSize-1; y++)
         {
             char[] newTiles = mapData[y].ToCharArray();
@@ -202,7 +213,6 @@ public class LevelManager : MonoBehaviour
     {
         if (Canvas.GetComponent<Currency>().currency >= towerSO[towerToBePlacedID].Cost)
         {
-            Debug.Log("Instatiating" + towerToBePlaced.name);
             GameObject newTower = Instantiate(towerToBePlaced);
 
             newTower.transform.position = towerPosition;

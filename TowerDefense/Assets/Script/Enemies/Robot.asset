@@ -15,3 +15,5 @@ MonoBehaviour:
   movSpeed: 2
   health: 20
   enemyGO: {fileID: 4173775404155485050, guid: 28730eae34c4b5f4bad6431f584ab023, type: 3}
+  id: 0
+  damage: 10

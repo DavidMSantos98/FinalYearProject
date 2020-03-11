@@ -8,21 +8,27 @@ public class EnemyCombat : MonoBehaviour
     public Slider healthbar;
 
     [SerializeField]
-    private Enemy[] enemyOptions;
-
-    public Enemy enemyInQuestion;
+    private Enemy enemyInQuestion;
+    
     private float health;
+    private int damage;
+    private int id;
+    private Rigidbody2D thisRB;
+
+    private GameObject currencyCanvas;
     void Awake()
     {
-        int index = 0;
-        enemyInQuestion = enemyOptions[index];
+        id = enemyInQuestion.id;
+        damage = enemyInQuestion.damage;
         health = enemyInQuestion.health;
+        thisRB = GetComponent<Rigidbody2D>();
+        thisRB.useFullKinematicContacts = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthbar.value = health; ;
+        healthbar.value = health;
 
         if (health <= 0)
         {
@@ -32,7 +38,15 @@ public class EnemyCombat : MonoBehaviour
 
     public void TakeDamage(float damage) 
     {
-        Debug.Log(damage+ " damage taken");
         health -= damage;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Goal"))
+        {
+            collision.gameObject.GetComponent<RecordDamage>().EnemyReachedGoal(id, damage);
+            Destroy(gameObject);
+        }
     }
 }
