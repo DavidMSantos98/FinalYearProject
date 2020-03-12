@@ -78,13 +78,11 @@ public class CannonProjectile : MonoBehaviour
 
     private void DealAoEDamage()
     {
-        Debug.Log("Bomb Arrived Destination");
         if (target != null)
         {
             target.GetComponent<EnemyCombat>().TakeDamage(damage);
         }
 
-        Debug.Log(CannonDamageRange + " is cannon damage range");
         Collider2D[] enemiesNearby = Physics2D.OverlapCircleAll(transform.position, CannonDamageRange);
         foreach( Collider2D enemyCol in enemiesNearby)
         {

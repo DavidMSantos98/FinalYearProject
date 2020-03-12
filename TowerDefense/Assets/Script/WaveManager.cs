@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -9,6 +10,9 @@ public class WaveManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] enemies;
+
+    [SerializeField]
+    private GameObject EnemiesHolder;
     private string[] waveString;
 
     private int[] currentWaveEnemies;
@@ -22,55 +26,198 @@ public class WaveManager : MonoBehaviour
 
     private Vector3 goalPosition;
 
-    private bool firstFrame;
-
     private int numberOfWaves;
+    private int waveCounter;
+    
+    [SerializeField]
+    private float newWaveDisplayTime;
+    private float durationNewWaveDisplay;
+
+    [SerializeField]
+    private GameObject waveDisplayGO;
+    private TextMeshProUGUI waveDisplay;
+
+    Color32 newAlpha;
+
+    [SerializeField]
+    private float percentageOfTimeIncreasingAlpha, percentageOfTimeDecreasingAlpha;
+    private float timeIncreaseAlpha;
+    private float timeDecreaseAlpha;
+
+    [SerializeField]
+    private float rateOfAlphaIncrease, rateOfAlphaDecrease;
+
+    private float floatValueOfAlpha;
+
+    private bool allEnemiesOfCurrentWaveHaveBeenSpawned;
+
+    private bool startingNextWave;
+
+    private bool valuesEstablished;
     void Start()
     {
-        enemyIndex = 0;
         numberOfWaves = CountNumberOfWaves();
-        waveString =ReadWavesText("Wave1");
-        SetEnemiesAndTime(waveString);
-        timeUntilSpawning = currentWaveTimes[enemyIndex];
-        firstFrame = true;
         goalPosition = GameObject.Find("SpawnPoint(Clone)").transform.position;
+
+        startingNextWave = true;
+        durationNewWaveDisplay = newWaveDisplayTime;
+
+        if (percentageOfTimeIncreasingAlpha > 100) { percentageOfTimeIncreasingAlpha = 100; }
+        if (percentageOfTimeDecreasingAlpha > 100) { percentageOfTimeDecreasingAlpha = 100; }
+
+        if (percentageOfTimeIncreasingAlpha <0) { percentageOfTimeIncreasingAlpha = 0; }
+        if (percentageOfTimeDecreasingAlpha < 0) { percentageOfTimeDecreasingAlpha = 0; }
+
+        timeIncreaseAlpha = newWaveDisplayTime - (newWaveDisplayTime * (percentageOfTimeIncreasingAlpha / 100));
+        timeDecreaseAlpha = newWaveDisplayTime * (percentageOfTimeDecreasingAlpha / 100);
+
+        waveDisplay = waveDisplayGO.GetComponent<TextMeshProUGUI>();
+            
+        newAlpha = waveDisplay.color;
+        newAlpha.a = 0;
+        waveDisplay.color = newAlpha;
+
+        allEnemiesOfCurrentWaveHaveBeenSpawned = false;
+
+        valuesEstablished = false;
+
+        waveCounter = 1;
     }
     void Update()
     {
-        if (firstFrame)
+        
+        if (startingNextWave)
         {
-
-            firstFrame = false;
-        }
-
-        if (enemyIndex< waveXSize-1)
-        {
-            if (timeUntilSpawning <= 0)
+            if(waveCounter<= numberOfWaves)
             {
-                GameObject prefab = Instantiate(enemies[currentWaveEnemies[enemyIndex]], goalPosition,transform.rotation) as GameObject;
-                enemyIndex++;
-                timeUntilSpawning = currentWaveTimes[enemyIndex];
+                waveDisplay.text = "Wave " + waveCounter.ToString();
+                DisplayWaveCounter();
             }
             else
             {
-                timeUntilSpawning -= Time.deltaTime;
+                //game completed
             }
-        }
-        if (enemyIndex == waveXSize - 1) 
+
+        }else
         {
 
+            if (!valuesEstablished)
+            {
+                SetValuesForNewWave();
+                valuesEstablished = true;
+            }
+
+            if (enemyIndex < waveXSize)
+            {
+                if (timeUntilSpawning <= 0)
+                {
+                    GameObject prefab = Instantiate(enemies[currentWaveEnemies[enemyIndex]], goalPosition, transform.rotation) as GameObject;
+                    prefab.transform.parent = EnemiesHolder.transform;
+                   
+                    if(enemyIndex== currentWaveEnemies.Length - 1)
+                    {
+                        allEnemiesOfCurrentWaveHaveBeenSpawned = true;
+                    }
+                    enemyIndex++;
+
+                    if (enemyIndex <= currentWaveEnemies.Length-1)
+                    {
+                        timeUntilSpawning = currentWaveTimes[enemyIndex];
+                    }
+                    
+                    
+                }
+                else
+                {
+                    timeUntilSpawning -= Time.deltaTime;
+                }
+            }
+
+            if (allEnemiesOfCurrentWaveHaveBeenSpawned && EnemiesHolder.transform.childCount == 0)
+            {
+                startingNextWave = true;
+                allEnemiesOfCurrentWaveHaveBeenSpawned = false;
+                valuesEstablished = false;
+                enemyIndex = 0;
+                waveCounter++;
+
+            }
         }
+    }
+
+
+    void DisplayWaveCounter()
+    {
+        if (durationNewWaveDisplay <= 0)
+        {
+            startingNextWave = false;
+
+            if (waveDisplay.color.a != 0)
+            {
+                newAlpha.a = 0;
+                waveDisplay.color = newAlpha;
+            }
+
+            durationNewWaveDisplay = newWaveDisplayTime;
+        }
+        else
+        {
+
+            floatValueOfAlpha = Convert.ToSingle(newAlpha.a);
+
+            if (durationNewWaveDisplay> timeIncreaseAlpha)
+            {
+                //increase alpha
+                if (floatValueOfAlpha + rateOfAlphaIncrease <= 255)
+                {
+                    
+                    floatValueOfAlpha += rateOfAlphaIncrease;
+                }
+                else
+                {
+                    floatValueOfAlpha = 255;
+                }
+
+            }
+            if(durationNewWaveDisplay< timeDecreaseAlpha)
+            {
+                //decrease alpha
+                if (floatValueOfAlpha - rateOfAlphaDecrease >= 0)
+                {
+                    
+                    floatValueOfAlpha -= rateOfAlphaDecrease;
+                }
+                else
+                {
+                    floatValueOfAlpha = 0;
+                }
+            }
+
+            newAlpha.a = Convert.ToByte(floatValueOfAlpha);
+            waveDisplay.color = newAlpha;
+
+            durationNewWaveDisplay -= Time.deltaTime;
+        }
+    }
+
+    void SetValuesForNewWave()
+    {
+        enemyIndex = 0;
+        //waveCounter = waveNumber;
+        waveString = ReadWavesText("Wave" + waveCounter.ToString());
+        SetEnemiesAndTime(waveString);
+        timeUntilSpawning = currentWaveTimes[enemyIndex];
     }
 
     int CountNumberOfWaves()
     {
-        UnityEngine.Object[] waves = Resources.LoadAll(Application.dataPath+"/resources");
-        return waves.Length - 1;
+        object[] waves = Resources.LoadAll("Waves");
+        return waves.Length ;
     }
 
     string[] ReadWavesText(string waveFileName)
     {
-        TextAsset wave = Resources.Load(waveFileName) as TextAsset;
+        TextAsset wave = Resources.Load("Waves/" + waveFileName) as TextAsset;
         string data = wave.text.Replace(Environment.NewLine, string.Empty);
         return data.Split('-');
     }
@@ -85,7 +232,7 @@ public class WaveManager : MonoBehaviour
         currentWaveEnemies = new int[waveXSize];
         currentWaveTimes = new int[waveXSize];
 
-        for (int i = 0; i < waveData.Length; i++)
+        for (int i = 0; i < 2; i++)
         {
             for(int j = 0; j < waveXSize; j++)
             {
@@ -94,7 +241,7 @@ public class WaveManager : MonoBehaviour
                     enemyString = waveData[i][j];
                     currentWaveEnemies[j] = (int)Char.GetNumericValue(enemyString);
                 }
-                if (i != 0)
+                if (i == 1)
                 {
                     timeString = waveData[i][j];
                     currentWaveTimes[j] = (int)Char.GetNumericValue(timeString);
