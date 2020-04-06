@@ -9,6 +9,9 @@ TagManager:
   - Enemy
   - DecorativeTiles
   - Goal
+  - GoalAndSpawn
+  - PlayerStats
+  - BackgroundMusic
   layers:
   - Default
   - TransparentFX

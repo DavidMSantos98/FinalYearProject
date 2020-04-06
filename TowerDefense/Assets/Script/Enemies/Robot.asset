@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884c34c43df009408a7ec3a456e186f, type: 3}
   m_Name: Robot
   m_EditorClassIdentifier: 
-  movSpeed: 2
-  health: 20
+  movSpeed: 1.5
+  health: 35
   enemyGO: {fileID: 4173775404155485050, guid: 28730eae34c4b5f4bad6431f584ab023, type: 3}
   id: 0
-  damage: 10
+  damage: 25

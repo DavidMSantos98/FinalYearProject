@@ -48,7 +48,6 @@ public class TowerStateMachine : MonoBehaviour
         directionCategories = new int[3,3];
 
         matchSpriteArrayIndexWithDirections();
-
     }
 
     // Update is called once per frame

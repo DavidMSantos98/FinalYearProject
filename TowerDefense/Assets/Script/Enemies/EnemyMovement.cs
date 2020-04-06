@@ -35,6 +35,7 @@ public class EnemyMovement : MonoBehaviour
     {
         initializationTime = Time.time;
         //the array would be done using the patfinding algorithm
+
         enemyMovementDirections = new int[] { east,
                                             south, south, south, south, south, south,
                                             east, east,
@@ -49,7 +50,7 @@ public class EnemyMovement : MonoBehaviour
                                             north, north, north,
                                             east, east,
                                             south, south, south, south, south, south,
-                                            west, west, west, west, west, west, west, west, west, west, west, west, west, west, };
+                                            west, west, west, west, west, west, west, west, west, west, west, west, west, west};
 
         lm = GameObject.Find("LevelManager");
         pt = GameObject.Find("PathTiles").transform;

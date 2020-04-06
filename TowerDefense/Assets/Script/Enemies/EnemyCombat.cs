@@ -7,6 +7,7 @@ public class EnemyCombat : MonoBehaviour
 {
     public Slider healthbar;
 
+
     [SerializeField]
     private Enemy enemyInQuestion;
     
@@ -15,7 +16,8 @@ public class EnemyCombat : MonoBehaviour
     private int id;
     private Rigidbody2D thisRB;
 
-    private GameObject currencyCanvas;
+    private GameObject PlayerRecords;
+
     void Awake()
     {
         id = enemyInQuestion.id;
@@ -23,15 +25,18 @@ public class EnemyCombat : MonoBehaviour
         health = enemyInQuestion.health;
         thisRB = GetComponent<Rigidbody2D>();
         thisRB.useFullKinematicContacts = true;
+
+        PlayerRecords = GameObject.FindGameObjectWithTag("PlayerStats");
     }
 
-    // Update is called once per frame
     void Update()
     {
         healthbar.value = health;
 
         if (health <= 0)
         {
+            PlayerRecords.GetComponent<RecordAchievmentValues>().RecordEnemyDefeat(id);
+            Debug.Log("Enemy number " + id+"has died");
             Destroy(gameObject);
         }
     }

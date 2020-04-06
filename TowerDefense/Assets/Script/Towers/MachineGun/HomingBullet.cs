@@ -25,29 +25,15 @@ public class HomingBullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (maxTimeAlive <= 0)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            maxTimeAlive -= Time.deltaTime;
-        }
-
-
         if (target == null)
         {
             targetHasDied = true;
             lastRecordedTargetPosition = targetPosition;
-        }
-
-        if (!targetHasDied)
-        {
-            targetPosition = target.transform.position;
+            Destroy(gameObject);
         }
         else
         {
-            targetPosition = lastRecordedTargetPosition;
+            targetPosition = target.transform.position;
         }
 
         bulletPosition = transform.position;
@@ -55,13 +41,7 @@ public class HomingBullet : MonoBehaviour
         Vector2 directionalVector = targetPosition- bulletPosition;
         directionalVector.Normalize();
 
-        bulletRB.velocity = directionalVector * speed;
-
-        if(bulletPosition == targetPosition)
-        {
-           Destroy(gameObject);
-        }
-       
+        bulletRB.velocity = directionalVector * speed;  
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

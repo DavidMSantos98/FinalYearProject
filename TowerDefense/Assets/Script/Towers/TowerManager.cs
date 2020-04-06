@@ -11,6 +11,8 @@ public class TowerManager : TowerParametersOthers
     public float attackRate;
     private float projSpeed;
     private float damage;
+    [HideInInspector]
+    public int towerId;
 
     public int towerIndex;
     
@@ -31,6 +33,8 @@ public class TowerManager : TowerParametersOthers
         LevelManager = GameObject.Find("LevelManager");
         enemiesLayer = LayerMask.NameToLayer("Enemy");
         towerIndex = LevelManager.GetComponent<LevelManager>().towerToBePlacedID;
+
+        towerId = tower.id;
         damage = tower.Damage;
         projSpeed = tower.projectileSpeed;
         attackRate = tower.AttackRate;

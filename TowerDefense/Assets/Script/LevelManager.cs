@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -35,50 +37,86 @@ public class LevelManager : MonoBehaviour
     private GameObject Canvas;
 
     [SerializeField]
+    private TextMeshProUGUI currencyNotification;
+    [SerializeField]
+    private float timeForCurrencyNotification;
+    private float timeUntilHideCurrencyNotification;
+
+    private bool displayCurrencyNotification;
+    Color32 currencyNotificationNoAlpha;
+    Color32 currencyNotificationColor;
+
+    private bool showCurrencyNotification;
+
+    [SerializeField]
+    private GameObject Enemies;
+
+    [SerializeField]
     private Tower[] towerSO;
 
     public int mapYSize;
     private int mapXSize;
+
+    [SerializeField]
+    private GameObject CurrencyGO;
 
     public float TileSize
     {
         get { return tilePrefabs[0].GetComponent<SpriteRenderer>().sprite.bounds.size.x; }
     }
 
-    void Start()
+    void Awake()
     {
+        currencyNotificationNoAlpha=currencyNotification.color;
+        currencyNotificationNoAlpha.a = 0;
+        
+        currencyNotificationColor = currencyNotification.color;
+
+        currencyNotification.color = currencyNotificationNoAlpha;
+
         TowerTiles = GameObject.Find("TowerTiles").transform;
         PathTiles = GameObject.Find("PathTiles").transform;
         DecorativeTiles = GameObject.Find("DecorativeTiles").transform;
 
         CreateLevel();
         Canvas = transform.GetChild(0).gameObject;
+        displayCurrencyNotification = false;
+        timeUntilHideCurrencyNotification = timeForCurrencyNotification;
         //towerToBePlacedID = 0;
     }
     void Update()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            CreateEnemy(0);
-        }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("Current Tower is Machine Gun Tower");
             towerToBePlacedID = 0;
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            Debug.Log("Current Tower is Cannon Tower");
             towerToBePlacedID = 1;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Current Tower is Laser Tower");
             towerToBePlacedID = 2;
         }
 
         towerToBePlaced = towerOptions[towerToBePlacedID];
+        
+        if (displayCurrencyNotification)
+        {
+            if (timeUntilHideCurrencyNotification > 0) 
+            {
+                currencyNotification.color = currencyNotificationColor;
+                timeUntilHideCurrencyNotification -= Time.deltaTime;
+            }
+            else 
+            {
+                currencyNotification.color = currencyNotificationNoAlpha;
+                timeUntilHideCurrencyNotification = timeForCurrencyNotification;
+                displayCurrencyNotification = false;
+            }
+
+        }
 
     }
 
@@ -92,15 +130,8 @@ public class LevelManager : MonoBehaviour
         towerToBePlacedID = 1;
     }
 
-    private void CreateEnemy(int i)
-    {
-        GameObject Enemy = Instantiate(enemyOptions[i].enemyGO);
-        Enemy.transform.position = spawnerGO.transform.position;
-    }
-
     private void CreateLevel()
     {
-
         string[] mapData = ReadLevelText();
 
         mapXSize = mapData[0].ToCharArray().Length;
@@ -116,7 +147,6 @@ public class LevelManager : MonoBehaviour
             char[] newTiles = mapData[y].ToCharArray();
             for(int x=0; x< mapXSize; x++)
             {
-
                 PlaceTile(newTiles[x].ToString(), x, y, worldStart);
             }
         }
@@ -209,30 +239,39 @@ public class LevelManager : MonoBehaviour
         return data.Split('-');
     }
 
-    public void PlaceTower(Vector2 towerPosition, GameObject tile)
+    public void PlaceTower(GameObject tile)
     {
-        if (Canvas.GetComponent<Currency>().currency >= towerSO[towerToBePlacedID].Cost)
+        if (Canvas.GetComponent<Currency>().currency > towerSO[towerToBePlacedID].Cost)
         {
+            displayCurrencyNotification = true;
+            currencyNotification.text = "-"+ towerSO[towerToBePlacedID].Cost;
+            
             GameObject newTower = Instantiate(towerToBePlaced);
 
-            newTower.transform.position = towerPosition;
+            newTower.transform.position = tile.transform.position;
 
             tile.GetComponent<Tile>().OnTopOfTileID = towerToBePlacedID;
             tile.GetComponent<Tile>().TowerOnTopOfTile = newTower;
+
+            Enemies.GetComponent<RecordAchievmentValues>().RecordTowerPlacement(newTower, tile);
+
         }
         else
         {
-            Debug.Log("Not enough currency to instantiate " + towerToBePlaced);
+            displayCurrencyNotification = true;
+            currencyNotification.text = "Not enough life orbs for tower ";
         }
 
     }
 
     public void RemoveTower(GameObject tile)
     {
-        tile.GetComponent<Tile>().OnTopOfTileID = null;
-        //not sure if should also set refernce to tower gameobject to null
         Destroy(tile.GetComponent<Tile>().TowerOnTopOfTile);
-
+        tile.GetComponent<Tile>().OnTopOfTileID = null;
+        //Enemies.GetComponent<RecordAchievmentValues>().RemoveRecordTowerPlacement(tower, tile);
+        displayCurrencyNotification = true;
+        currencyNotification.text = "+" + towerSO[towerToBePlacedID].SellingPrice;
+        CurrencyGO.GetComponent<Currency>().AddCurrency(towerSO[towerToBePlacedID].SellingPrice);
     }
 
     public Transform FindTileWithCords(Transform parentGO, int x, int y)

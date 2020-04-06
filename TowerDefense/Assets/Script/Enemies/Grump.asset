@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Grump
   m_EditorClassIdentifier: 
   movSpeed: 1
-  health: 35
+  health: 55
   enemyGO: {fileID: 7724309368149239720, guid: b440aceeae9124e47b05bcc408c5d074, type: 3}
   id: 1
-  damage: 25
+  damage: 40

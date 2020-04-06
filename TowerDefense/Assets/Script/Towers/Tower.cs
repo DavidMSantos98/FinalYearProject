@@ -12,6 +12,6 @@ public class Tower : ScriptableObject
     public int SellingPrice;
     public GameObject tower;
     public float projectileSpeed;
-    //public RuntimeAnimatorController towerAnimatorController;
+    public int id;
 
 }

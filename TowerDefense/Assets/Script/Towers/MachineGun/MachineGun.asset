@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f2e25b3796816428269e7dca84404a, type: 3}
   m_Name: MachineGun
   m_EditorClassIdentifier: 
-  Damage: 5
+  Damage: 4
   Range: 5
   AttackRate: 0.5
   Cost: 20
-  SellingPrice: 0
+  SellingPrice: 15
   tower: {fileID: 3845497822288313527, guid: 5e66935d59f5ddc4694185a5abe797e6, type: 3}
   projectileSpeed: 5
+  id: 0

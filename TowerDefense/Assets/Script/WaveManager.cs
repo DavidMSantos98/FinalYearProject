@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 
 public class WaveManager : MonoBehaviour
@@ -13,6 +14,10 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField]
     private GameObject EnemiesHolder;
+
+    [SerializeField]
+    private GameObject PlayerRecords;
+
     private string[] waveString;
 
     private int[] currentWaveEnemies;
@@ -26,8 +31,8 @@ public class WaveManager : MonoBehaviour
 
     private Vector3 goalPosition;
 
-    private int numberOfWaves;
-    private int waveCounter;
+    public int numberOfWaves;
+    public int? waveCounter;
     
     [SerializeField]
     private float newWaveDisplayTime;
@@ -35,6 +40,7 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField]
     private GameObject waveDisplayGO;
+    [SerializeField]
     private TextMeshProUGUI waveDisplay;
 
     Color32 newAlpha;
@@ -54,9 +60,14 @@ public class WaveManager : MonoBehaviour
     private bool startingNextWave;
 
     private bool valuesEstablished;
-    void Start()
+
+    private void Awake()
     {
         numberOfWaves = CountNumberOfWaves();
+    }
+
+    void Start()
+    {
         goalPosition = GameObject.Find("SpawnPoint(Clone)").transform.position;
 
         startingNextWave = true;
@@ -71,7 +82,7 @@ public class WaveManager : MonoBehaviour
         timeIncreaseAlpha = newWaveDisplayTime - (newWaveDisplayTime * (percentageOfTimeIncreasingAlpha / 100));
         timeDecreaseAlpha = newWaveDisplayTime * (percentageOfTimeDecreasingAlpha / 100);
 
-        waveDisplay = waveDisplayGO.GetComponent<TextMeshProUGUI>();
+        //waveDisplay = waveDisplayGO.GetComponent<TextMeshProUGUI>();
             
         newAlpha = waveDisplay.color;
         newAlpha.a = 0;
@@ -85,10 +96,12 @@ public class WaveManager : MonoBehaviour
     }
     void Update()
     {
-        
+        //startingNextWave = true;
+        //numberOfWaves = 3;
+        //waveCounter = 1;
         if (startingNextWave)
         {
-            if(waveCounter<= numberOfWaves)
+            if (waveCounter<= numberOfWaves)
             {
                 waveDisplay.text = "Wave " + waveCounter.ToString();
                 DisplayWaveCounter();
@@ -96,6 +109,7 @@ public class WaveManager : MonoBehaviour
             else
             {
                 //game completed
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
             }
 
         }else
@@ -135,16 +149,21 @@ public class WaveManager : MonoBehaviour
 
             if (allEnemiesOfCurrentWaveHaveBeenSpawned && EnemiesHolder.transform.childCount == 0)
             {
-                startingNextWave = true;
-                allEnemiesOfCurrentWaveHaveBeenSpawned = false;
-                valuesEstablished = false;
-                enemyIndex = 0;
-                waveCounter++;
-
+                NextWave();
             }
         }
     }
 
+    void NextWave()
+    {
+        int wave = (int)waveCounter;
+        PlayerRecords.GetComponent<RecordAchievmentValues>().RecordEndOfWave(wave);
+        startingNextWave = true;
+        allEnemiesOfCurrentWaveHaveBeenSpawned = false;
+        valuesEstablished = false;
+        enemyIndex = 0;
+        waveCounter++;
+    }
 
     void DisplayWaveCounter()
     {
@@ -152,8 +171,10 @@ public class WaveManager : MonoBehaviour
         {
             startingNextWave = false;
 
+
             if (waveDisplay.color.a != 0)
             {
+
                 newAlpha.a = 0;
                 waveDisplay.color = newAlpha;
             }
@@ -209,11 +230,7 @@ public class WaveManager : MonoBehaviour
         timeUntilSpawning = currentWaveTimes[enemyIndex];
     }
 
-    int CountNumberOfWaves()
-    {
-        object[] waves = Resources.LoadAll("Waves");
-        return waves.Length ;
-    }
+
 
     string[] ReadWavesText(string waveFileName)
     {
@@ -248,5 +265,11 @@ public class WaveManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    int CountNumberOfWaves()
+    {
+        object[] waves = Resources.LoadAll("Waves");
+        return waves.Length;
     }
 }

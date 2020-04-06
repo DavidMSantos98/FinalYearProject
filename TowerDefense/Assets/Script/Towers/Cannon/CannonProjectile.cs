@@ -28,7 +28,7 @@ public class CannonProjectile : MonoBehaviour
     void Start()
     {
         laserDamageRange = 5;
-        CannonDamageRange = 10f;
+        CannonDamageRange = 5f;
         CannonCollateralDamage = 2;
         enemiesLayer = LayerMask.NameToLayer("Enemy");
         cannonRB = GetComponent<Rigidbody2D>();
@@ -40,38 +40,25 @@ public class CannonProjectile : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (target == null && continueProjectileTranslation==false)
+        if (target != null)
         {
-            continueProjectileTranslation = false;
+            targetPosition = target.transform.position;
         }
         else
         {
-            continueProjectileTranslation = true;
+            Destroy(gameObject);
         }
 
-        if (continueProjectileTranslation == true)
+        bulletPosition = transform.position;
+
+        Vector2 directionalVector = targetPosition - bulletPosition;
+        directionalVector.Normalize();
+
+        cannonRB.velocity = directionalVector * speed;
+
+        if ((bulletPosition - targetPosition).magnitude <= distanceForExplosion)
         {
-            if (target != null)
-            {
-                targetPosition = target.transform.position;
-            }
-            else
-            {
-                targetPosition = lastRecordedTargetPosition;
-            }
-
-            bulletPosition = transform.position;
-
-            Vector2 directionalVector = targetPosition - bulletPosition;
-            directionalVector.Normalize();
-
-            cannonRB.velocity = directionalVector * speed;
-
-            if ((bulletPosition - targetPosition).magnitude <= distanceForExplosion)
-            {
-                DealAoEDamage();
-            }
-            lastRecordedTargetPosition = targetPosition;
+            DealAoEDamage();
         }
 
     }

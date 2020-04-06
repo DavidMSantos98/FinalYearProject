@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3a20481f7c39280409c01522be89f5ef, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.44705883, g: 1, b: 0.4481132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   CannonCollateralDamage: 2
   cost: 0
   attackRate: 0
+  towerId: 0
   towerIndex: 0
   tower: {fileID: 11400000, guid: ed7c7d289d54e134a9e09cf9c7692ef7, type: 2}
   projectile: {fileID: 3914810419566449639, guid: 0c99595bb837fb44a9914d0a42eca866,

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f2e25b3796816428269e7dca84404a, type: 3}
   m_Name: Cannon
   m_EditorClassIdentifier: 
-  Damage: 8
+  Damage: 9
   Range: 0
   AttackRate: 1.5
   Cost: 30
-  SellingPrice: 0
+  SellingPrice: 20
   tower: {fileID: 7013919578298240036, guid: 302a9b3db6fa76940a6cdac10781ccea, type: 3}
   projectileSpeed: 6
+  id: 1

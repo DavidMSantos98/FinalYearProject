@@ -151,6 +151,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthbar: {fileID: 5383889273257738544}
   enemyInQuestion: {fileID: 11400000, guid: de162db96cba1bf4bab127541f6fd20d, type: 2}
+  PlayerRecords: {fileID: 7800688700331687642, guid: f42ad49694171824a84eb7125c2352ff,
+    type: 3}
 --- !u!61 &1194334747322839213
 BoxCollider2D:
   m_ObjectHideFlags: 0

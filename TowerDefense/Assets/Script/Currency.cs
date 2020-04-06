@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class Currency : MonoBehaviour
 {
+
+    [SerializeField]
+    private GameObject LevelManager;
+
+    public int initialCurrencyValue;
+
+    [HideInInspector]
     public int currency;
     private float previousCurrency;
     [SerializeField]
@@ -15,11 +22,17 @@ public class Currency : MonoBehaviour
     private float timeBetweenAutomaticCurrencyIncrease;
     private float timeUntilCurrencyIncrease;
 
+    [SerializeField]
+    private GameObject EnemiesHolder;
+
+    [SerializeField]
+    private GameObject PlayerDefeatUI;
+
     private TextMeshProUGUI text;
     void Start()
     {
+        currency = initialCurrencyValue;
         text = textUI.GetComponent<TextMeshProUGUI>();
-        currency = 200;
         timeUntilCurrencyIncrease = timeBetweenAutomaticCurrencyIncrease;
     }
 
@@ -41,8 +54,13 @@ public class Currency : MonoBehaviour
             text.text = currency.ToString();
         }
         previousCurrency = currency;
-    }
 
+        if (currency <= 0)
+        {
+            LevelManager.GetComponent<PauseGame>().Pause();
+            PlayerDefeatUI.SetActive(true);
+        }
+    }
     public void SubtractCurrency(int i)
     {
         currency -= i;
@@ -52,4 +70,7 @@ public class Currency : MonoBehaviour
     {
         currency += i;
     }
+
+    
+
 }
