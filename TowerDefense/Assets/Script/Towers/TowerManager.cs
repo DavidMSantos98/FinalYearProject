@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TowerManager : TowerParametersOthers
 {
+    public float towerHeightOfset;
+    public Vector3 towerProjectilePosition;
+    private Vector2 projectileInitialPosition;
     private float range;
     public int cost;
     private float sellingPrice;
@@ -34,6 +37,7 @@ public class TowerManager : TowerParametersOthers
         enemiesLayer = LayerMask.NameToLayer("Enemy");
         towerIndex = LevelManager.GetComponent<LevelManager>().towerToBePlacedID;
 
+        towerHeightOfset = 1;
         towerId = tower.id;
         damage = tower.Damage;
         projSpeed = tower.projectileSpeed;
@@ -46,6 +50,8 @@ public class TowerManager : TowerParametersOthers
     public void TowerAttack(GameObject enemy)
     {
         targetEnemy = enemy;
+        towerProjectilePosition = new Vector3(0, towerHeightOfset);
+        projectileInitialPosition = transform.position + towerProjectilePosition;
 
         switch (tower.name)
         {
@@ -66,13 +72,13 @@ public class TowerManager : TowerParametersOthers
     private void MachineGunAttack()
     {
         GameObject bullet = Instantiate(projectile);
-        bullet.transform.position = transform.position;//+offset
+        bullet.transform.position = projectileInitialPosition;
         bullet.GetComponent<HomingBullet>().SetValues(targetEnemy, projSpeed, damage);
     }
     private void CannonAttack()
     {
         GameObject cannonBall = Instantiate(projectile);
-        cannonBall.transform.position = transform.position;//+offset
+        cannonBall.transform.position = projectileInitialPosition;
         cannonBall.GetComponent<CannonProjectile>().SetValues(targetEnemy, projSpeed, damage);
     }
 

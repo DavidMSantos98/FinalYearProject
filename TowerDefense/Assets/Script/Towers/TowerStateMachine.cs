@@ -73,7 +73,7 @@ public class TowerStateMachine : MonoBehaviour
 
     public void GetDirectionVectorBetweenTowerAndTarget(GameObject target)
     {
-        Vector2 betweenTowerAndTarget = target.transform.position - transform.position; //+offset
+        Vector2 betweenTowerAndTarget = target.transform.position - gameObject.GetComponent<TowerManager>().towerProjectilePosition;
         CheckIfDirectionChanged(betweenTowerAndTarget.normalized);
     }
 
