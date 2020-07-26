@@ -34,7 +34,7 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         initializationTime = Time.time;
-        //the array would be done using the patfinding algorithm
+        //the array would be done using the pathfinding algorithm
 
         enemyMovementDirections = new int[] { east,
                                             south, south, south, south, south, south,

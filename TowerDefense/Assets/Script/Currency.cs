@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿                                                                                                                                                                                    using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -61,6 +61,7 @@ public class Currency : MonoBehaviour
             PlayerDefeatUI.SetActive(true);
         }
     }
+
     public void SubtractCurrency(int i)
     {
         currency -= i;

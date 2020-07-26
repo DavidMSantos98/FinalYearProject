@@ -36,7 +36,6 @@ public class EnemyCombat : MonoBehaviour
         if (health <= 0)
         {
             PlayerRecords.GetComponent<RecordAchievmentValues>().RecordEnemyDefeat(id);
-            Debug.Log("Enemy number " + id+"has died");
             Destroy(gameObject);
         }
     }

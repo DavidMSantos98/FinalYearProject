@@ -27,8 +27,6 @@ public class WaveManager : MonoBehaviour
 
     private int enemyIndex;
 
-    private int waveXSize;
-
     private Vector3 goalPosition;
 
     public int numberOfWaves;
@@ -121,7 +119,7 @@ public class WaveManager : MonoBehaviour
                 valuesEstablished = true;
             }
 
-            if (enemyIndex < waveXSize)
+            if (enemyIndex < currentWaveEnemies.Length)
             {
                 if (timeUntilSpawning <= 0)
                 {
@@ -134,7 +132,7 @@ public class WaveManager : MonoBehaviour
                     }
                     enemyIndex++;
 
-                    if (enemyIndex <= currentWaveEnemies.Length-1)
+                    if (enemyIndex <= currentWaveEnemies.Length-1)  
                     {
                         timeUntilSpawning = currentWaveTimes[enemyIndex];
                     }
@@ -224,7 +222,6 @@ public class WaveManager : MonoBehaviour
     void SetValuesForNewWave()
     {
         enemyIndex = 0;
-        //waveCounter = waveNumber;
         waveString = ReadWavesText("Wave" + waveCounter.ToString());
         SetEnemiesAndTime(waveString);
         timeUntilSpawning = currentWaveTimes[enemyIndex];
@@ -244,7 +241,7 @@ public class WaveManager : MonoBehaviour
         char enemyString;
         char timeString;
 
-        waveXSize = waveData[0].ToCharArray().Length;
+        int waveXSize = waveData[0].ToCharArray().Length;
 
         currentWaveEnemies = new int[waveXSize];
         currentWaveTimes = new int[waveXSize];
